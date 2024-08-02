@@ -1,12 +1,15 @@
 import "./App.css";
-import PaginationDemo from './lib/pagination/PaginationDemo';
-import TableDemo from './lib/data table/TableDemo';
-import AccordionDemo from './lib/Accordion/AccordionDemo';
+import TabDemo from './lib/Tabs/TabDemo';
+import TableDemo from './lib/DataTable/TableDemo';
+
 function App() {
+  
   return (
     <>
-    <TableDemo />
-        </>
+      <TabDemo />
+      <TableDemo />
+      
+    </>
   );
 }
 

@@ -34,11 +34,15 @@ export default function useSelectRow(data: any[], page: string) {
   const selectedRows = data.filter((row: { id: number }) =>
     selectedRowIds[page]?.includes(row.id)
   );
+  const unCheckAll = ()=>{
+    setSelectedRowIds({})
+  }
   return {
     selectedRowIds,
     selectedRows,
     selectAll,
     isAllSelected,
     handleCheckboxChange,
+    unCheckAll
   };
 }
