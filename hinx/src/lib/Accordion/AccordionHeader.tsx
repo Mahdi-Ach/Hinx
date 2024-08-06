@@ -1,6 +1,5 @@
-import React, { ReactNode, forwardRef } from "react";
-import { AccordionHeaderProvider, useAccorditionItemContext } from "./AccordionContext";
-import { AccordionTrigger } from "@radix-ui/react-accordion";
+import React, { ReactNode, forwardRef, memo } from "react";
+import { AccordionHeaderProvider, useAccorditionContext, useAccorditionItemContext } from "./AccordionContext";
 
 
 type BaseAccordionAttributes = React.ComponentPropsWithoutRef<"div">;
@@ -9,18 +8,18 @@ interface AccordionProps extends BaseAccordionAttributes {
   children: ReactNode;
 }
 
-const AccordionHeader = forwardRef<Ref, AccordionProps>(({ children }, ref) => {
+const AccordionHeader = memo(forwardRef<Ref, AccordionProps>(({ children,...props }, ref) => {
   const context = useAccorditionItemContext();
   if (!context) {
     throw new Error("AccorditionHeader must be a child of AccorditionItem");
   }
-
+  let accordioncontext = useAccorditionContext()
   return (
     <AccordionHeaderProvider>
-      <AccordionTrigger>
+      <div {...props} ref={ref} onClick={()=>accordioncontext?.setExpanded(context.expanded == accordioncontext.expanded ? "" : context.expanded)}>
         {children}
-      </AccordionTrigger>
+      </div>
     </AccordionHeaderProvider>
   );
-});
+}));
 export default AccordionHeader;

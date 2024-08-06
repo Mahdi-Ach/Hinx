@@ -78,6 +78,7 @@ const TableDemo = () => {
             </Tr>
           ))}
             
+          <p>{JSON.stringify(selectedRowIds)}</p>            
         </TBody>
       </Table>
       <PaginationDemo  totalpage={Math.ceil(+data.length / (+limit))} currentpage={page} ChangePage={ChangePage} ChangeLimit={ChangeLimit} />

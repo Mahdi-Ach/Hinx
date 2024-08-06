@@ -1,5 +1,4 @@
-import * as Accordions from '@radix-ui/react-accordion';
-import React, { ReactNode, forwardRef } from "react";
+import React, { ReactNode, forwardRef, memo } from "react";
 import { AccordionItemProvider, useAccorditionContext } from "./AccordionContext";
 
 type BaseAccordionAttributes = React.ComponentPropsWithoutRef<"div">;
@@ -9,17 +8,18 @@ interface AccordionProps extends BaseAccordionAttributes {
   value:string
 }
 
-const AccorditionItem = forwardRef<Ref, AccordionProps>(({value,children, ...props }, ref) => {
+const AccorditionItem = memo(forwardRef<Ref, AccordionProps>(({value,children, ...props }, ref) => {
     const context = useAccorditionContext()
     if(!context){
         throw new Error("AccorditionItem must be used inside Accordition")
     }
+    console.log(context)
     return(
-        <AccordionItemProvider>
-            <Accordions.Item ref={ref} value={value}>
+        <AccordionItemProvider value={value}>
+            <div ref={ref} {...props}>
                 {children}
-            </Accordions.Item>
+            </div>
         </AccordionItemProvider>
     )
-})
+}))
 export default AccorditionItem

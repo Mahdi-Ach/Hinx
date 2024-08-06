@@ -1,7 +1,7 @@
-import { AccordionContent } from "@radix-ui/react-accordion";
-import React, { ReactNode, forwardRef } from "react";
+import React, { ReactNode, forwardRef, memo } from "react";
 import {
   AccordionPanelProvider,
+  useAccorditionContext,
   useAccorditionItemContext,
 } from "./AccordionContext";
 
@@ -11,20 +11,24 @@ interface AccordionProps extends BaseAccordionAttributes {
   children: ReactNode;
 }
 
-const AccorditionPanel = forwardRef<Ref, AccordionProps>(
+const AccorditionPanel = memo(forwardRef<Ref, AccordionProps>(
   ({ children, ...props }, ref) => {
     const context = useAccorditionItemContext();
-    if (!context) {
+    let AccordionContext = useAccorditionContext()
+    if (!context || !AccordionContext) {
       throw new Error("AccorditionPanel must be a child of AccorditionItem");
     }
-
     return (
-      <AccordionPanelProvider>
-        <AccordionContent>
+      <>
+      {AccordionContext.expanded == context.expanded && <AccordionPanelProvider>
+        <div {...props} ref={ref}>
                 {children}
-        </AccordionContent>
+        </div>
+
       </AccordionPanelProvider>
+      }
+      </>
     );
   }
-);
+));
 export default AccorditionPanel;

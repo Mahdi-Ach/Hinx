@@ -1,6 +1,7 @@
 import "./App.css";
 import TabDemo from './lib/Tabs/TabDemo';
 import TableDemo from './lib/DataTable/TableDemo';
+import AccordionDemo from './lib/Accordion/AccordionDemo';
 
 function App() {
   
@@ -8,7 +9,7 @@ function App() {
     <>
       <TabDemo />
       <TableDemo />
-      
+      <AccordionDemo />
     </>
   );
 }

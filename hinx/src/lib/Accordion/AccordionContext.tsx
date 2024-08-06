@@ -1,8 +1,12 @@
-import React, { ReactNode, createContext, useContext } from "react";
+import React, { ReactNode, createContext, memo, useContext, useState } from "react";
+import AccorditionItem from './AccordionItem';
+type AccorditionItemType = {
+  expanded:string
+  setExpanded:(expanded:string) => void
+}
 
-
-const Accordion = createContext<boolean | undefined>(undefined);
-const AccordionItem = createContext<boolean | undefined>(undefined);
+const Accordion = createContext<AccorditionItemType | undefined>(undefined);
+const AccordionItem = createContext<AccorditionItemType | undefined>(undefined);
 const AccordionHeader = createContext<boolean | undefined>(undefined);
 const AccordionPanel = createContext<boolean | undefined>(undefined);
 
@@ -30,31 +34,36 @@ interface ProviderProps {
   children: ReactNode;
 }
 
-export const AccorditionProvider: React.FC<ProviderProps> = ({ children }) => {
+export const AccorditionProvider: React.FC<ProviderProps> = memo(({ children }) => {
+  const [expanded, setExpanded] = useState<string>("");
 
-  return <Accordion.Provider value={true}>{children}</Accordion.Provider>;
-};
-export const AccordionHeaderProvider: React.FC<ProviderProps> = ({
+  return <Accordion.Provider value={{expanded,setExpanded}}>{children}</Accordion.Provider>;
+});
+export const AccordionHeaderProvider: React.FC<ProviderProps> = memo(({
   children,
 }) => {
   return (
     <AccordionHeader.Provider value={true}>{children}</AccordionHeader.Provider>
   );
-};
-export const AccordionPanelProvider: React.FC<ProviderProps> = ({
+});
+export const AccordionPanelProvider: React.FC<ProviderProps> = memo(({
   children,
 }) => {
   return (
     <AccordionPanel.Provider value={true}>{children}</AccordionPanel.Provider>
   );
-};
-interface AccordionItemProviderprops {
+});
+type AccordionItemProviderprops ={
   children: ReactNode;
+  value:string
 }
-export const AccordionItemProvider: React.FC<AccordionItemProviderprops> = ({
+
+export const AccordionItemProvider: React.FC<AccordionItemProviderprops> = memo(({
   children,
+  value
 }) => {
+  const [expanded, setExpanded] = useState<string>(value);
   return (
-    <AccordionItem.Provider value={true}>{children}</AccordionItem.Provider>
+    <AccordionItem.Provider value={{expanded,setExpanded}}>{children}</AccordionItem.Provider>
   );
-};
+});
